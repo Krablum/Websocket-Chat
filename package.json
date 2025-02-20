@@ -1,0 +1,22 @@
+{
+  "name": "backend-ws-api",
+  "version": "1.0.0",
+  "description": "Making a ws mostly from scratch",
+  "main": "main.js",
+  "scripts": {
+    "test": "ws"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Krablum/Websocket-Nodejs-Library.git"
+  },
+  "author": "Krablum",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Krablum/Websocket-Nodejs-Library/issues"
+  },
+  "homepage": "https://github.com/Krablum/Websocket-Nodejs-Library#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
