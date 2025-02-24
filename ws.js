@@ -1,5 +1,5 @@
-class WSlib{
-
+class ClientWS{ 
+    
     constructor(hexBuffer){
         this.mainWSBuffer = hexBuffer.toString("hex")
         this.lenIndicator;
@@ -57,9 +57,6 @@ class WSlib{
         })()
         this.DATA;
         this.MESSAGE;
-
-    
-
     }
 
     DecodeData(){
@@ -77,8 +74,45 @@ class WSlib{
     }
 }
 
-let foo = new WSlib(Buffer.from("81 8c 49 e5 80 ee 01 80 ec 82 26 c5 d3 8b 3b 93 e5 9c".replaceAll(" ",""), "hex"))
+/**
+ * TODO: the class below is only with opcode %x1 which is the text type data
+ * 
+ * TODO: RSV only result with no negoation change it to be more flexable
+ */
+class ServerWS{
+    constructor(payloadData){
+        this.FIN = 0b1
+        this.RSV = 0b000
+        this.OPCODE = 0b0001
+        this.MASK = 0b0
+        this.PAYLOAD_LEN = payloadData.length
+        this.PAYLOAD_DATA = Buffer.from(payloadData)
+        this.frame = (()=>{
+            if(payloadData.length <= 125){
+                let frameArray = new ArrayBuffer(2+Buffer.from(payloadData).length)
+                let view8 = new Uint8Array(frameArray)
 
-foo.DecodeData()
+                view8[0]= (((this.FIN<<3)^this.RSV)<<4)^this.OPCODE
+                view8[1]= (this.MASK << 7)^this.PAYLOAD_LEN
 
-exports.WSlib = WSlib
+                for(let i = 2, il = this.PAYLOAD_LEN+2; i < il; i++){
+                    view8[i] = this.PAYLOAD_DATA[i-2]
+                }
+
+                return(Buffer.from(frameArray))
+            }
+
+        
+
+            
+
+
+            return frameArray
+        })()
+    }
+}
+
+
+
+module.exports.ClientWS = ClientWS
+module.exports.ServerWS = ServerWS
