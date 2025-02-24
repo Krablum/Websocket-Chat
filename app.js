@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const crypto = require("crypto");
 const { error } = require("console");
-const {WSlib} = require("./ws")
+const wslib = require("./ws")
 
 
 const app = express();
@@ -37,9 +37,11 @@ server.on("upgrade", (req, socket, head) => {
 
       console.log(req.headers)
       socket.on('data', (data)=>{
-        let wsDecoder = new WSlib(data)
+        let wsDecoder = new wslib.ClientFrame(data)
         wsDecoder.DecodeData()
         console.log(wsDecoder.MESSAGE)
+        let ServerData = new wslib.ServerFrame("hello")
+        socket.write(ServerData.frame)
         
       })
     } 

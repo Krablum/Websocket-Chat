@@ -1,4 +1,4 @@
-class ClientWS{ 
+class ClientFrame{ 
     
     constructor(hexBuffer){
         this.mainWSBuffer = hexBuffer.toString("hex")
@@ -79,7 +79,7 @@ class ClientWS{
  * 
  * TODO: RSV only result with no negoation change it to be more flexable
  */
-class ServerWS{
+class ServerFrame{
     constructor(payloadData){
         this.FIN = 0b1
         this.RSV = 0b000
@@ -114,5 +114,5 @@ class ServerWS{
 
 
 
-module.exports.ClientWS = ClientWS
-module.exports.ServerWS = ServerWS
+module.exports.ClientFrame = ClientFrame
+module.exports.ServerFrame = ServerFrame

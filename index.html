@@ -12,11 +12,17 @@
 const socket = new WebSocket('ws://localhost:5050')
 
 socket.addEventListener("open", (event) => {
-   
 
   console.log("sending data...")
   socket.send("Hello Server");
+
 });
+
+socket.addEventListener("message", (event) => {
+  
+   console.log(event.data)
+
+ });
 
 </script>
 </html>
