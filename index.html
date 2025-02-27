@@ -26,7 +26,11 @@ socket.addEventListener("message", (event) => {
 
 });
 
-//TODO: 
+window.addEventListener("close",(event) => {
+  socket.send()//here make a hex code which make app.js close
+})
+
+
 
 
 </script>
