@@ -5,7 +5,6 @@
     <title>Document</title>
 </head>
 <body>
-
 </body>
 <script>
 
@@ -13,16 +12,28 @@ const socket = new WebSocket('ws://localhost:5050')
 
 socket.addEventListener("open", (event) => {
 
-  console.log("sending data...")
-  socket.send("Hello Server");
+  let word = prompt("Enter Message: ")
+  console.log(word)
+  socket.send(word);
+
+
 
 });
 
 socket.addEventListener("message", (event) => {
-  
-   console.log(event.data)
+  console.log("messaeg: ")
+  console.log(event.data)
 
- });
+});
+
+//TODO: 
+
 
 </script>
+<style>
+  body{
+    background-color: rgb(36, 36, 36);
+  }
+
+</style>
 </html>

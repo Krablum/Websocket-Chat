@@ -2,8 +2,10 @@ const express = require("express");
 const http = require("http");
 const crypto = require("crypto");
 const { error } = require("console");
-const wslib = require("./ws")
+const wslib = require("./ws");
+const { Socket } = require("dgram");
 
+const clients = new Set()
 
 const app = express();
 const server = http.createServer(app); // Create an HTTP server
@@ -34,14 +36,21 @@ server.on("upgrade", (req, socket, head) => {
       ].join("\r\n");
 
       socket.write(headers);
+      clients.add(socket)
 
       console.log(req.headers)
       socket.on('data', (data)=>{
         let wsDecoder = new wslib.ClientFrame(data)
         wsDecoder.DecodeData()
         console.log(wsDecoder.MESSAGE)
-        let ServerData = new wslib.ServerFrame("hello")
-        socket.write(ServerData.frame)
+        let ServerData = new wslib.ServerFrame(wsDecoder.MESSAGE)
+
+
+        clients.forEach((client)=>{
+          client.write(ServerData.frame)
+        })
+
+  
         
       })
     } 
